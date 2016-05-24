@@ -23,12 +23,13 @@ bot.onText(/\/generate (.+)/, function (msg, match) {
     var timestamp = Date.now()+".png";
     var imagefill = fs.createWriteStream("images/"+timestamp);
     var imgstream = mathmode(match[1], options);
-    var piper = imgstream.pipe(imagefill);
 
-    piper.on("error", function(err){
+    imgstream.on("error", function(err){
         console.log("BANANAS");
         console.log(err);
     });
+    
+    var piper = imgstream.pipe(imagefill);
 
     //ao terminar a criação
     piper.on("finish", function(){

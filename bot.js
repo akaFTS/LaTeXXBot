@@ -25,6 +25,11 @@ bot.onText(/\/generate (.+)/, function (msg, match) {
     var imgstream = mathmode(match[1], options);
     var piper = imgstream.pipe(imagefill);
 
+    piper.on("error", function(err){
+        console.log("BANANAS");
+        console.log(err);
+    });
+
     //ao terminar a criação
     piper.on("finish", function(){
 

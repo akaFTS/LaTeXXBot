@@ -1,0 +1,17 @@
+{
+  "name": "latexxbot",
+  "version": "0.3.0",
+  "description": "A LaTeX generator Telegram bot.",
+  "main": "bot.js",
+  "dependencies": {
+    "mathmode": "^0.0.4",
+    "node-telegram-bot-api": "^0.21.1",
+    "q": "^1.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "/convert text"
+  },
+  "author": "Gustavo Silva",
+  "license": "ISC"
+}

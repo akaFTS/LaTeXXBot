@@ -109,10 +109,6 @@ bot.on('inline_query', function(msg)
             }
             else
                 return false;
-        }).then(function(){
-
-            //apaga-se o arquivo temporario
-            fs.unlink("images/"+timestamp);
         });
 
 

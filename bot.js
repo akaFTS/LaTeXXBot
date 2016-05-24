@@ -73,12 +73,14 @@ bot.on('inline_query', function(msg)
             'thumb_url': 'http://latexxbot.noip.me/'+timestamp,
             'photo_url': 'http://latexxbot.noip.me/'+timestamp,
             'id': timestamp,
-            'photo_width': 50,
-            'photo_height': 50
+            'photo_width': 200,
+            'photo_height': 200,
+            'title': "LaTeX"
         };
-        console.log(queryPic.thumb_url);
         results.push(queryPic);
-        bot.answerInlineQuery(q_id, results);
+        setTimeout(function(){
+            bot.answerInlineQuery(q_id, results);
+        }, 500);
     });
 });
 

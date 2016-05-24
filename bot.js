@@ -41,7 +41,7 @@ bot.onText(/\/generate (.+)/, function (msg, match) {
 bot.onText(/\/about/, function (msg) {
     bot.sendMessage(msg.from.id, "LaTeXX Bot by Gustavo Silva\n"+
                                  "---------------------\n"+
-                                 "IME-USP\n\nVersão 0.3");
+                                 "IME-USP\n\nVersão 1.0");
 });
 
 // comando /start

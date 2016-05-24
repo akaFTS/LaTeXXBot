@@ -10,6 +10,8 @@ var q = require("q");
 var imports = ['amsmath', 'amssymb'];
 var token = '202698795:AAFsEy64Un2KX5ItACRfOVHBmCDi8d94Ix4';
 var bot = new TelegramBot(token, {polling: true});
+
+//configs para servir as imagens no inline
 var app = express();
 app.use(express.static(__dirname + '/images'));
 app.listen(80);
@@ -24,6 +26,8 @@ bot.onText(/\/generate (.+)/, function (msg, match) {
     var timestamp = Date.now()+".png";
     var imagefill = fs.createWriteStream("images/"+timestamp);
     var imgstream = mathmode(match[1], options);
+
+    //tratamento de erro na compilação do latex
     var isOk = true;
     imgstream.on("error", function(err){
         isOk = false;
@@ -34,6 +38,7 @@ bot.onText(/\/generate (.+)/, function (msg, match) {
     //ao terminar a criação
     piper.on("finish", function(){
 
+        //envia-se a foto se não houve erro
         q.fcall(function(){
             if(isOk)
                 return bot.sendPhoto(msg.from.id, "images/"+timestamp);
@@ -51,7 +56,7 @@ bot.onText(/\/generate (.+)/, function (msg, match) {
 bot.onText(/\/about/, function (msg) {
     bot.sendMessage(msg.from.id, "LaTeXX Bot by Gustavo Silva\n"+
                                  "---------------------\n"+
-                                 "IME-USP\n\nVersão 1.0");
+                                 "IME-USP\n\nVersão 1.1");
 });
 
 // comando /start
@@ -64,31 +69,55 @@ bot.onText(/\/start/, function (msg) {
 //inline
 bot.on('inline_query', function(msg)
 {
-    var q_id = msg.id;
-    var q_query = msg.query;
-    if (q_query == "") return;
-    var options = {format: "jpeg", packages: imports, dpi:1000};
+    if (msg.query == "") return;
 
     //criação da imagem latex
+    var options = {format: "jpeg", packages: imports, dpi:1000};
     var timestamp = Date.now()+".jpeg";
     var imagefill = fs.createWriteStream("images/"+timestamp);
-    var imgstream = mathmode(q_query, options);
+    var imgstream = mathmode(msg.query, options);
+
+    //tratamento de erro na compilação do latex
+    var isOk = true;
+    imgstream.on("error", function(err){
+        isOk = false;
+    });
+
     var piper = imgstream.pipe(imagefill);
 
     //ao terminar a criação
     piper.on("finish", function(){
-        var results = [];
-        var queryPic = {
-            'type': 'photo', 
-            'thumb_url': 'http://latexxbot.noip.me/'+timestamp,
-            'photo_url': 'http://latexxbot.noip.me/'+timestamp,
-            'id': timestamp,
-            'photo_width': 200,
-            'photo_height': 80,
-            'title': "LaTeX"
-        };
-        results.push(queryPic); 
-        bot.answerInlineQuery(q_id, results);
+
+        //envia-se a foto se não houve erro
+        q.fcall(function(){
+            if(isOk) {
+                //cria-se o array com o resultado
+                var results = [];
+                var queryPic = {
+                    'type': 'photo', 
+                    'thumb_url': 'http://latexxbot.noip.me/'+timestamp,
+                    'photo_url': 'http://latexxbot.noip.me/'+timestamp,
+                    'id': timestamp,
+                    'photo_width': 200,
+                    'photo_height': 80,
+                    'title': "LaTeX"
+                };
+
+                //responde-se a query
+                results.push(queryPic); 
+                return bot.answerInlineQuery(msg.id, results);
+            }
+            else
+                return false;
+        }).then(function(){
+
+            //apaga-se o arquivo temporario
+            fs.unlink("images/"+timestamp);
+        });
+
+
+
+        
     });
 });
 

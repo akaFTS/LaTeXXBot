@@ -6,7 +6,7 @@ var fs = require("fs");
 
 //configs
 var options = {packages: ['amsmath', 'amssymb'], dpi: 500};
-var token = '';
+var token = '202698795:AAFsEy64Un2KX5ItACRfOVHBmCDi8d94Ix4';
 var bot = new TelegramBot(token, {polling: true});
 
 // comando /generate [blah]
@@ -36,6 +36,14 @@ bot.onText(/\/about/, function (msg) {
                                  "---------------------\n"+
                                  "IME-USP\n\nVersão 0.3");
 });
+
+// comando /start
+bot.onText(/\/start/, function (msg) {
+    bot.sendMessage(msg.from.id, "/generate [text] - Generate image from LaTeX code\n"+
+                                 "/about - About the bot\n"+
+                                 "@latexxbot [text] - Inline version of the bot");
+});
+
 
 //ligando servidor
 http.createServer(function(req, res){

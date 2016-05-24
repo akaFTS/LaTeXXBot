@@ -57,7 +57,7 @@ bot.on('inline_query', function(msg)
     var q_id = msg.id;
     var q_query = msg.query;
     if (q_query == "") return;
-    var options = {format: "jpeg", packages: imports, dpi: 1500};
+    var options = {format: "jpeg", packages: imports, dpi:1000};
 
     //criação da imagem latex
     var timestamp = Date.now()+".jpeg";
@@ -74,13 +74,11 @@ bot.on('inline_query', function(msg)
             'photo_url': 'http://latexxbot.noip.me/'+timestamp,
             'id': timestamp,
             'photo_width': 200,
-            'photo_height': 200,
+            'photo_height': 80,
             'title': "LaTeX"
         };
-        results.push(queryPic);
-        setTimeout(function(){
-            bot.answerInlineQuery(q_id, results);
-        }, 500);
+        results.push(queryPic); 
+        bot.answerInlineQuery(q_id, results);
     });
 });
 

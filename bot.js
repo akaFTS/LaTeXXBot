@@ -3,19 +3,25 @@ var TelegramBot = require('node-telegram-bot-api');
 var http = require('http');
 var mathmode = require("mathmode");
 var fs = require("fs");
+var express = require('express');
 
 //configs
 var imports = ['amsmath', 'amssymb'];
-var token = '';
+var token = '202698795:AAFsEy64Un2KX5ItACRfOVHBmCDi8d94Ix4';
 var bot = new TelegramBot(token, {polling: true});
+var app = express();
+app.use(express.static(__dirname + '/images'));
+app.listen(8667);
+
+
 
 // comando /generate [blah]
 bot.onText(/\/generate (.+)/, function (msg, match) {
 
     //criação da imagem latex
     var options = {dpi: 500, packages: imports};
-    var timestamp = Date.now()+".jpg";
-    var imagefill = fs.createWriteStream(timestamp);
+    var timestamp = Date.now()+".png";
+    var imagefill = fs.createWriteStream("images/"+timestamp);
     var imgstream = mathmode(match[1], options);
     var piper = imgstream.pipe(imagefill);
 
@@ -23,10 +29,10 @@ bot.onText(/\/generate (.+)/, function (msg, match) {
     piper.on("finish", function(){
 
         //envio da imagem
-        bot.sendPhoto(msg.from.id, timestamp).then(function(){
+        bot.sendPhoto(msg.from.id, "images/"+timestamp).then(function(){
 
             //apaga-se o arquivo temporario
-            fs.unlink(timestamp);
+            fs.unlink("images/"+timestamp);
         });
     });
 });
@@ -50,11 +56,12 @@ bot.on('inline_query', function(msg)
 {
     var q_id = msg.id;
     var q_query = msg.query;
-    var options = {format: "jpg", packages: imports, dpi: 1500};
+    if (q_query == "") return;
+    var options = {format: "jpeg", packages: imports, dpi: 1500};
 
     //criação da imagem latex
-    var timestamp = Date.now()+".jpg";
-    var imagefill = fs.createWriteStream(timestamp);
+    var timestamp = Date.now()+".jpeg";
+    var imagefill = fs.createWriteStream("images/"+timestamp);
     var imgstream = mathmode(q_query, options);
     var piper = imgstream.pipe(imagefill);
 
@@ -63,21 +70,24 @@ bot.on('inline_query', function(msg)
         var results = [];
         var queryPic = {
             'type': 'photo', 
-            'photo_url': timestamp,
-            'thumb_url': timestamp,
-            'id': timestamp,
-            'photo_width': 48,
-            'photo_height': 48
+            'thumb_url': 'http://latexxbot.noip.me/1464117828667.jpeg',
+            'photo_url': 'http://latexxbot.noip.me/1464117828667.jpeg',
+            'id': "ofghfkjhdkjshdlkh"
         };
+        console.log(queryPic.thumb_url);
         results.push(queryPic);
         bot.answerInlineQuery(q_id, results);
     });
 });
 
+bot.on('chosen_inline_result', function(msg)
+{
+    console.log('Chosen:' + msg);
+});
 
 
 //ligando servidor
 http.createServer(function(req, res){
     res.end("Standby");
     bot.getUpdates();
-}).listen(8666);
+}).listen(8666, "0.0.0.0");

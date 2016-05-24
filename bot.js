@@ -72,7 +72,9 @@ bot.on('inline_query', function(msg)
             'type': 'photo', 
             'thumb_url': 'http://latexxbot.noip.me/'+timestamp,
             'photo_url': 'http://latexxbot.noip.me/'+timestamp,
-            'id': timestamp
+            'id': timestamp,
+            'photo_width': 50,
+            'photo_height': 50
         };
         console.log(queryPic.thumb_url);
         results.push(queryPic);

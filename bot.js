@@ -33,16 +33,16 @@ bot.onText(/\/generate (.+)/, function (msg, match) {
         console.log("APPLES");
         var piper = imgstream.pipe(imagefill);
         console.log("POTAHTO");
-    });
 
-    //ao terminar a criação
-    piper.on("finish", function(){
-        console.log("FINISHES");
-        //envio da imagem
-        bot.sendPhoto(msg.from.id, "images/"+timestamp).then(function(){
+        //ao terminar a criação
+        piper.on("finish", function(){
+            console.log("FINISHES");
+            //envio da imagem
+            bot.sendPhoto(msg.from.id, "images/"+timestamp).then(function(){
 
-            //apaga-se o arquivo temporario
-            fs.unlink("images/"+timestamp);
+                //apaga-se o arquivo temporario
+                fs.unlink("images/"+timestamp);
+            });
         });
     });
 });

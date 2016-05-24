@@ -5,7 +5,7 @@ var mathmode = require("mathmode");
 var fs = require("fs");
 
 //configs
-var options = {packages: ['amsmath', 'amssymb'], dpi: 500};
+var imports = ['amsmath', 'amssymb'];
 var token = '';
 var bot = new TelegramBot(token, {polling: true});
 
@@ -13,7 +13,8 @@ var bot = new TelegramBot(token, {polling: true});
 bot.onText(/\/generate (.+)/, function (msg, match) {
 
     //criação da imagem latex
-    var timestamp = Date.now()+".png";
+    var options = {dpi: 500, packages: imports};
+    var timestamp = Date.now()+".jpg";
     var imagefill = fs.createWriteStream(timestamp);
     var imgstream = mathmode(match[1], options);
     var piper = imgstream.pipe(imagefill);
@@ -43,6 +44,36 @@ bot.onText(/\/start/, function (msg) {
                                  "/about - About the bot\n"+
                                  "@latexxbot [text] - Inline version of the bot");
 });
+
+//inline
+bot.on('inline_query', function(msg)
+{
+    var q_id = msg.id;
+    var q_query = msg.query;
+    var options = {format: "jpg", packages: imports, dpi: 1500};
+
+    //criação da imagem latex
+    var timestamp = Date.now()+".jpg";
+    var imagefill = fs.createWriteStream(timestamp);
+    var imgstream = mathmode(q_query, options);
+    var piper = imgstream.pipe(imagefill);
+
+    //ao terminar a criação
+    piper.on("finish", function(){
+        var results = [];
+        var queryPic = {
+            'type': 'photo', 
+            'photo_url': timestamp,
+            'thumb_url': timestamp,
+            'id': timestamp,
+            'photo_width': 48,
+            'photo_height': 48
+        };
+        results.push(queryPic);
+        bot.answerInlineQuery(q_id, results);
+    });
+});
+
 
 
 //ligando servidor

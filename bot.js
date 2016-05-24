@@ -28,12 +28,15 @@ bot.onText(/\/generate (.+)/, function (msg, match) {
         console.log("BANANAS");
         console.log(err);
     });
-    
+
+    imgstream.on("end", function(){
+        console.log("APPLES");
+    });
     var piper = imgstream.pipe(imagefill);
 
     //ao terminar a criação
     piper.on("finish", function(){
-
+        console.log("FINISHES");
         //envio da imagem
         bot.sendPhoto(msg.from.id, "images/"+timestamp).then(function(){
 

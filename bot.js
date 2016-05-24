@@ -31,8 +31,9 @@ bot.onText(/\/generate (.+)/, function (msg, match) {
 
     imgstream.on("end", function(){
         console.log("APPLES");
+        var piper = imgstream.pipe(imagefill);
+        console.log("POTAHTO");
     });
-    var piper = imgstream.pipe(imagefill);
 
     //ao terminar a criação
     piper.on("finish", function(){

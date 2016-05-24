@@ -6,7 +6,7 @@ var fs = require("fs");
 
 //configs
 var options = {packages: ['amsmath', 'amssymb'], dpi: 500};
-var token = '202698795:AAFsEy64Un2KX5ItACRfOVHBmCDi8d94Ix4';
+var token = '';
 var bot = new TelegramBot(token, {polling: true});
 
 // comando /generate [blah]

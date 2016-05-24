@@ -4,6 +4,7 @@
   "description": "A LaTeX generator Telegram bot.",
   "main": "bot.js",
   "dependencies": {
+    "express": "^4.13.4",
     "mathmode": "^0.0.4",
     "node-telegram-bot-api": "^0.21.1",
     "q": "^1.4.1"

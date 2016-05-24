@@ -4,6 +4,7 @@ var http = require('http');
 var mathmode = require("mathmode");
 var fs = require("fs");
 var express = require('express');
+var q = require("q");
 
 //configs
 var imports = ['amsmath', 'amssymb'];
@@ -23,18 +24,22 @@ bot.onText(/\/generate (.+)/, function (msg, match) {
     var timestamp = Date.now()+".png";
     var imagefill = fs.createWriteStream("images/"+timestamp);
     var imgstream = mathmode(match[1], options);
-
+    var isOk = true;
     imgstream.on("error", function(err){
-        console.log("BANANAS");
+        isOk = false;
     });
-    
+
     var piper = imgstream.pipe(imagefill);
 
     //ao terminar a criação
     piper.on("finish", function(){
-        console.log("FINISHES");
-        //envio da imagem
-        bot.sendPhoto(msg.from.id, "images/"+timestamp).then(function(){
+
+        q.fcall(function(){
+            if(isOk)
+                return bot.sendPhoto(msg.from.id, "images/"+timestamp);
+            else
+                return false;
+        }).then(function(){
 
             //apaga-se o arquivo temporario
             fs.unlink("images/"+timestamp);

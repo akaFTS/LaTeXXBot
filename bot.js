@@ -11,7 +11,7 @@ var token = '202698795:AAFsEy64Un2KX5ItACRfOVHBmCDi8d94Ix4';
 var bot = new TelegramBot(token, {polling: true});
 var app = express();
 app.use(express.static(__dirname + '/images'));
-app.listen(80);
+app.listen(8667);
 
 
 
@@ -72,19 +72,13 @@ bot.on('inline_query', function(msg)
             'type': 'photo', 
             'thumb_url': 'http://latexxbot.noip.me/'+timestamp,
             'photo_url': 'http://latexxbot.noip.me/'+timestamp,
-            'id': "ofghfkjhdkjshdlkh"
+            'id': timestamp
         };
         console.log(queryPic.thumb_url);
         results.push(queryPic);
         bot.answerInlineQuery(q_id, results);
     });
 });
-
-bot.on('chosen_inline_result', function(msg)
-{
-    console.log('Chosen:' + msg);
-});
-
 
 //ligando servidor
 http.createServer(function(req, res){

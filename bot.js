@@ -32,12 +32,13 @@ bot.onText(/\/generate (.+)/, function (msg, match) {
 
 // comando /about
 bot.onText(/\/about/, function (msg) {
-    bot.sendMessage(msg.from.id, "LaTeXX Bot by Gustavo Silva\n\n---------------------\n\nIME Workshop@IME-USP\n\n\nVersão 0.3");
+    bot.sendMessage(msg.from.id, "LaTeXX Bot by Gustavo Silva\n"+
+                                 "---------------------\n"+
+                                 "IME-USP\n\nVersão 0.3");
 });
 
 //ligando servidor
 http.createServer(function(req, res){
-    res.end("Bot aguardando");
+    res.end("Standby");
     bot.getUpdates();
 }).listen(8666);
-console.log("Server do bot rodando na porta 8666.");

@@ -125,6 +125,10 @@ bot.on('inline_query', function(msg)
     });
 });
 
+bot.on("chosen_inline_result", function(msg){
+    console.log("eu escolho vc "+msg);
+});
+
 //ligando servidor
 http.createServer(function(req, res){
     res.end("Standby");

@@ -5,6 +5,7 @@
   "main": "bot.js",
   "dependencies": {
     "express": "^4.13.4",
+    "image-size-stream": "^1.1.0",
     "mathmode": "^0.0.4",
     "node-telegram-bot-api": "^0.21.1",
     "q": "^1.4.1"

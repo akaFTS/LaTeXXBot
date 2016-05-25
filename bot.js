@@ -5,6 +5,7 @@ var mathmode = require("mathmode");
 var fs = require("fs");
 var express = require('express');
 var q = require("q");
+var iss = require('image-size-stream');
 
 //configs
 var imports = ['amsmath', 'amssymb'];
@@ -76,6 +77,11 @@ bot.on('inline_query', function(msg)
     var timestamp = Date.now()+".jpeg";
     var imagefill = fs.createWriteStream("images/"+timestamp);
     var imgstream = mathmode(msg.query, options);
+    var sizestream = iss();
+
+    sizestream.on("size", function(dimen){
+        console.log(dimen);
+    });
 
     //tratamento de erro na compilação do latex
     var isOk = true;
@@ -83,7 +89,7 @@ bot.on('inline_query', function(msg)
         isOk = false;
     });
 
-    var piper = imgstream.pipe(imagefill);
+    var piper = imgstream.pipe(sizestream).pipe(imagefill);
 
     //ao terminar a criação
     piper.on("finish", function(){

@@ -86,7 +86,7 @@ bot.on('inline_query', function(msg)
 
         //agora que temos os tamanhos, vamos normalizar
         width = 100*(dimen.width/dimen.height);
-        console.log("new width ${width}");
+        console.log("new width "+width);
     });
 
     //tratamento de erro na compilação do latex

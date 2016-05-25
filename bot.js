@@ -82,7 +82,6 @@ bot.on('inline_query', function(msg)
     //tratamento de erro na compilação do latex
     var isOk = true;
     imgstream.on("error", function(err){
-        console.log("BANANA");
         isOk = false;
     });
 
@@ -94,7 +93,7 @@ bot.on('inline_query', function(msg)
     sizestream.on("error", function(err){
         isOk = false;
     });
-    
+
     var piper = imgstream.pipe(sizestream).pipe(imagefill);
 
     //ao terminar a criação

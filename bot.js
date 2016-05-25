@@ -5,7 +5,6 @@ var mathmode = require("mathmode");
 var fs = require("fs");
 var express = require('express');
 var q = require("q");
-var iss = require('image-size-stream');
 
 //configs
 var imports = ['amsmath', 'amssymb'];
@@ -78,22 +77,13 @@ bot.on('inline_query', function(msg)
     var imagefill = fs.createWriteStream("images/"+timestamp);
     var imgstream = mathmode(msg.query, options);
 
-    //ajustando tamanho do thumbnail
-    var sizestream = iss();
-    var width = 200;
-    sizestream.on("size", function(dimen){
-
-        //agora que temos os tamanhos, vamos normalizar
-        width = parseInt(100*(dimen.width/dimen.height));
-    });
-
     //tratamento de erro na compilação do latex
     var isOk = true;
     imgstream.on("error", function(err){
         isOk = false;
     });
 
-    var piper = imgstream.pipe(sizestream).pipe(imagefill);
+    var piper = imgstream.pipe(imagefill);
 
     //ao terminar a criação
     piper.on("finish", function(){
@@ -108,9 +98,9 @@ bot.on('inline_query', function(msg)
                     'thumb_url': 'http://latexxbot.noip.me/'+timestamp,
                     'photo_url': 'http://latexxbot.noip.me/'+timestamp,
                     'id': timestamp,
-                    'title': "LaTeXX Output",
+                    'photo_width': 200,
                     'photo_height': 80,
-                    'photo_width': 200
+                    'title': "LaTeX"
                 };
 
                 //responde-se a query

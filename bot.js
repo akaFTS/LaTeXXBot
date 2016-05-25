@@ -77,7 +77,7 @@ bot.on('inline_query', function(msg)
     var timestamp = Date.now()+".jpeg";
     var imagefill = fs.createWriteStream("images/"+timestamp);
     var imgstream = mathmode(msg.query, options);
-    var sizestream = iss.createSizeStream();
+    var sizestream = iss.createImageSizeStream();
 
     //tratamento de erro na compilação do latex
     var isOk = true;

@@ -77,10 +77,16 @@ bot.on('inline_query', function(msg)
     var timestamp = Date.now()+".jpeg";
     var imagefill = fs.createWriteStream("images/"+timestamp);
     var imgstream = mathmode(msg.query, options);
-    var sizestream = iss();
 
+    //ajustando tamanho do thumbnail
+    var sizestream = iss();
+    var height = 100;
+    var width = 200;
     sizestream.on("size", function(dimen){
-        console.log(dimen);
+
+        //agora que temos os tamanhos, vamos normalizar
+        width = 100*(dimen.width/dimen.height);
+        console.log("new width ${width}");
     });
 
     //tratamento de erro na compilação do latex

@@ -85,7 +85,7 @@ bot.on('inline_query', function(msg)
     sizestream.on("size", function(dimen){
 
         //agora que temos os tamanhos, vamos normalizar
-        width = 100*(dimen.width/dimen.height);
+        width = parseInt(100*(dimen.width/dimen.height));
         console.log("new width "+width);
     });
 

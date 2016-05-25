@@ -3,7 +3,8 @@ A LaTeX generator bot *(@latexxbot)*.
 
 ###Usage
 ```/generate [text]```:  Generates an image based on the LaTeX code [text].
-```@latexxbot [text]```: Inline version - can be used inside any chat
+
+```@latexxbot [text]```: Inline version - can be used inside any chat.
 
 ###Credits
 Made by Gustavo Silva (~gustavohfts) @IME-USP

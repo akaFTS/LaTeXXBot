@@ -109,8 +109,8 @@ bot.on('inline_query', function(msg)
                     'photo_url': 'http://latexxbot.noip.me/'+timestamp,
                     'id': timestamp,
                     'title': "LaTeXX Output",
-                    'photo_height': 100,
-                    'photo_width': width
+                    'photo_height': 80,
+                    'photo_width': 200
                 };
 
                 //responde-se a query

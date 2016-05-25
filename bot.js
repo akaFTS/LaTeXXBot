@@ -99,7 +99,7 @@ bot.on('inline_query', function(msg)
                     'photo_url': 'http://latexxbot.noip.me/'+timestamp,
                     'id': timestamp,
                     'photo_width': 200,
-                    'photo_height': 80,
+                    'photo_height': 100,
                     'title': "LaTeX"
                 };
 

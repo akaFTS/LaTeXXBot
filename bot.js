@@ -91,7 +91,10 @@ bot.on('inline_query', function(msg)
     sizestream.on("size", function(dim){
         width = parseInt(100*(dim.width/dim.height));
     });
-
+    sizestream.on("error", function(err){
+        isOk = false;
+    });
+    
     var piper = imgstream.pipe(sizestream).pipe(imagefill);
 
     //ao terminar a criação

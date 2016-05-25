@@ -82,6 +82,7 @@ bot.on('inline_query', function(msg)
     //tratamento de erro na compilação do latex
     var isOk = true;
     imgstream.on("error", function(err){
+        console.log("BANANA");
         isOk = false;
     });
 

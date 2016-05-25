@@ -80,13 +80,11 @@ bot.on('inline_query', function(msg)
 
     //ajustando tamanho do thumbnail
     var sizestream = iss();
-    var height = 100;
     var width = 200;
     sizestream.on("size", function(dimen){
 
         //agora que temos os tamanhos, vamos normalizar
         width = parseInt(100*(dimen.width/dimen.height));
-        console.log("new width "+width);
     });
 
     //tratamento de erro na compilação do latex
@@ -110,7 +108,9 @@ bot.on('inline_query', function(msg)
                     'thumb_url': 'http://latexxbot.noip.me/'+timestamp,
                     'photo_url': 'http://latexxbot.noip.me/'+timestamp,
                     'id': timestamp,
-                    'title': "LaTeXX Output"
+                    'title': "LaTeXX Output",
+                    'height': 100,
+                    'width': width
                 };
 
                 //responde-se a query

@@ -57,7 +57,7 @@ bot.onText(/\/generate (.+)/, function (msg, match) {
 bot.onText(/\/about/, function (msg) {
     bot.sendMessage(msg.from.id, "LaTeXX Bot by Gustavo Silva\n"+
                                  "---------------------\n"+
-                                 "IME-USP\n\nVersão 1.1");
+                                 "IME-USP\n\nVersão 1.2");
 });
 
 // comando /start
@@ -85,6 +85,7 @@ bot.on('inline_query', function(msg)
         isOk = false;
     });
 
+    //manipulação do tamanho do thumb
     var width = 200;
     sizestream.on("size", function(dim){
         width = parseInt(100*(dim.width/dim.height));

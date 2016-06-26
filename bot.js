@@ -17,6 +17,11 @@ var app = express();
 app.use(express.static(__dirname + '/images'));
 app.listen(80);
 
+//logging
+var winston = require('winston');
+winston.add(winston.transports.File, { filename: 'history.log' });
+winston.remove(winston.transports.Console);
+
 
 
 // comando /generate [blah]
@@ -49,6 +54,10 @@ bot.onText(/\/generate (.+)/, function (msg, match) {
 
             //apaga-se o arquivo temporario
             fs.unlink("images/"+timestamp);
+
+            //armazena-se o log
+            winston.info('Direct bot used: '+msg.from.username);
+
         });
     });
 });
@@ -57,14 +66,21 @@ bot.onText(/\/generate (.+)/, function (msg, match) {
 bot.onText(/\/about/, function (msg) {
     bot.sendMessage(msg.from.id, "LaTeXX Bot by Gustavo Silva\n"+
                                  "---------------------\n"+
-                                 "IME-USP\n\nVersão 1.2");
+                                 "IME-USP - Version 1.3");
 });
 
 // comando /start
 bot.onText(/\/start/, function (msg) {
     bot.sendMessage(msg.from.id, "/generate [text] - Generate image from LaTeX code\n"+
                                  "/about - About the bot\n"+
+                                 "/like - Like it? Rate and Spread!\n"+
                                  "@latexxbot [text] - Inline version of the bot");
+});
+
+// comando /like
+bot.onText(/\/like/, function (msg) {
+    bot.sendMessage(msg.from.id, "Like this bot?\n🌟🌟🌟🌟🌟\n Give it 5 stars on StoreBot: https://storebot.me/bot/latexxbot\n\n"+
+                                 "Also, spread the word to your friends! 👍");
 });
 
 //inline
@@ -114,6 +130,9 @@ bot.on('inline_query', function(msg)
                     'title': "LaTeX"
                 };
 
+                //logging
+                winston.info('Inline bot used: '+msg.from.username);
+
                 //responde-se a query
                 results.push(queryPic); 
                 return bot.answerInlineQuery(msg.id, results);
@@ -128,9 +147,6 @@ bot.on('inline_query', function(msg)
     });
 });
 
-bot.on("chosen_inline_result", function(msg){
-    console.log("eu escolho vc "+msg);
-});
 
 //ligando servidor
 http.createServer(function(req, res){

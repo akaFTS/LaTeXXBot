@@ -56,7 +56,7 @@ bot.onText(/\/generate (.+)/, function (msg, match) {
             fs.unlink("images/"+timestamp);
 
             //armazena-se o log
-            winston.info('Direct bot used: '+msg.from.username);
+            winston.info('Direct bot used: '+msg.from.first_name+' '+ (msg.from.last_name || ''));
 
         });
     });
@@ -131,7 +131,7 @@ bot.on('inline_query', function(msg)
                 };
 
                 //logging
-                winston.info('Inline bot used: '+msg.from.username);
+                winston.info('Inline bot used: '+msg.from.first_name+' '+ (msg.from.last_name || ''));
 
                 //responde-se a query
                 results.push(queryPic); 
